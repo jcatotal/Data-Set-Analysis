@@ -15,7 +15,7 @@ def main():
     print('\n')
     print('      FIRE DEPARTMENT DATA SET      ')
     print('\n')
-    print(' This program allows you to see the ')
+    print(' This program allows you to see and ')
     print('   explore a data set of Chicago.   ')
     print('\n')
     print('====================================')
@@ -33,7 +33,8 @@ def options():
     print('3. Display number of Inspection Requests in Data Set.\n')
     print('4. Display number of Fire Stations in the City of Chicago.\n')
     print('5. Show a List of all Fire Stations.\n')
-    print('6. Close this program.\n')
+    print('6. Access function that counts requests within a certain day.\n')
+    print('7. Close this program.\n')
     x = int(input('Please enter number of option: '))
     if x == 1:
         fire_count()
@@ -46,6 +47,8 @@ def options():
     elif x == 5:
         StationList()
     elif x == 6:
+        dayData()
+    elif x == 7:
         exit()
     else:
         print('That is not a valid option. \nPlease enter a valid number.')
@@ -53,6 +56,9 @@ def options():
     
 ##Used this as reference when understanding csv 
 '''
+a = open('FOIA_Request_Log_-_Fire.csv', 'r+')
+csvReader = csv.reader(a)
+
 def first_line():
     head = next(csvReader)
     first = next(csvReader)
@@ -82,7 +88,7 @@ def fire_count():
     input('\nPress any key to return to Options.')
     options()
 
-#Counts the number of ems requets
+#Counts the number of ems requests
 def ems_count():
     a = open('FOIA_Request_Log_-_Fire.csv', 'r+')
     csvReader = csv.reader(a)
@@ -134,7 +140,29 @@ def StationList():
     print('\n===================')
     input('\nPress any key to return to Options.')
     options()
-    
+
+#Counts the number of Requests with a day
+def dayData():
+    a = open('FOIA_Request_Log_-_Fire.csv', 'r+')
+    csvReader = csv.reader(a)
+
+    print('Use this function to view a number of requests')
+    print('   within a valid date within the Data Set.   ')
+    print('     i.e dates that do not contain #####      ')
+    dayCount = 0
+    x = str(input('\nEnter a date in X/X/XXXX format (ex. 9/9/2015): \n'))
+    for row in csvReader:
+        if row[3] == x:
+            dayCount = dayCount + 1
+
+    if dayCount == 0:
+        print('This is not a valid date in the Data Set. Please enter a valid date.')
+        dayData()
+    else:
+        print('\nThe number of requests made on ', x ,'is: ', dayCount)
+
+    options()
+
     
 main()
 
